@@ -25,6 +25,78 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 // Add your functions below:
 
+const validateCred = (arr) => {
+    let total = 0;
+    for (let i = arr.length - 1; i >= 0; i--) {
+        let value = arr[i]
+        if ((arr.length - 1 - i) % 2 === 1) {
+            value *= 2;
+            if (value > 9) {
+                value -= 9;
+            }   
+        }
+        total += value
+    }
+
+    return total % 10 === 0;
+
+}
+
+console.log(validateCred(valid1));
+console.log(validateCred(invalid1));
+
+const findInvalidCards = (cards) => {
+    const invalid = [];
+
+    for (let i = 0; i < cards.length; i++) {
+        let cred = cards[i];
+        if (!validateCred(cred)) {
+            invalid.push(cred);
+        }
+    }
+
+    return invalid;
+}
+
+console.log(findInvalidCards([valid1, valid2, valid3, valid4, valid5]));
+console.log(findInvalidCards([invalid1, invalid2, invalid3, invalid4, invalid5])); //prints all of the numbers
+
+console.log(findInvalidCards(batch)); // Test mystery numbers
+
+const idInvalidCardCompanies = (invalidBatch) => {
+    const companies = [];
+    for (let i = 0; i < invalidBatch.length; i++) {
+        switch (invalidBatch[i][0]) {
+            case 3:
+                if (companies.indexOf('Amex') === -1) {
+                    companies.push('Amex');
+                }
+                break
+            case 4:
+                if (companies.indexOf('Visa') === -1) {
+                    companies.push('Visa');  
+                }
+                break
+            case 5:
+                if (companies.indexOf('Mastercard') === -1) {
+                    companies.push('Mastercard');
+                }
+                break
+            case 6:
+                if (companies.indexOf('Discover') === -1) {
+                    companies.push('Discover');
+                }
+                break
+            default:
+                console.log('Company not found');
+        }
+    }
+    return companies;
+}
+
+console.log(idInvalidCardCompanies([invalid1])); // Prints ['visa']
+console.log(idInvalidCardCompanies([invalid2])); // Prints ['mastercard']
+console.log(idInvalidCardCompanies(batch)); // invalid cards
 
 
 
